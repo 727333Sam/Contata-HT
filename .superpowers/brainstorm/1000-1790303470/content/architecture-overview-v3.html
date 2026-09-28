@@ -1,0 +1,211 @@
+<h2>TaskFlow Pro — Final Architecture Design</h2>
+<p class="subtitle">Three-Layer Monolith • Optimized for 72-Hour Sprint</p>
+
+<div class="section">
+  <h3>System Architecture — Confirmed</h3>
+  <div class="mockup">
+    <div class="mockup-header">Three-Layer Monolith — Production-Ready</div>
+    <div class="mockup-body" style="padding: 1.5rem; font-family: monospace; font-size: 0.85rem; line-height: 1.8;">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: 2px solid #5a67d8; border-radius: 8px; padding: 12px; display: inline-block; min-width: 280px; color: white;">
+          <strong>🌐 FRONTEND — React 18 + TypeScript</strong><br>
+          <span style="font-size: 0.8rem;">React Beautiful DnD • React Flow • Axios • Zustand</span>
+        </div>
+      </div>
+      <div style="text-align: center; color: #666; font-size: 1.2rem; font-weight: bold;">▼ REST API + WebSocket ▼</div>
+      <div style="text-align: center; margin: 0.5rem 0;">
+        <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border: 2px solid #38a169; border-radius: 8px; padding: 12px; display: inline-block; min-width: 280px; color: #1a202c;">
+          <strong>⚙️ BACKEND — FastAPI + Python</strong><br>
+          <span style="font-size: 0.8rem;">DAG Engine • Schedule Propagator • AI Suggester • Alembic</span>
+        </div>
+      </div>
+      <div style="text-align: center; color: #666; font-size: 1.2rem; font-weight: bold;">▼ SQLAlchemy ORM ▼</div>
+      <div style="text-align: center; margin-top: 0.5rem;">
+        <div style="background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); border: 2px solid #dd6b20; border-radius: 8px; padding: 12px; display: inline-block; min-width: 280px; color: white;">
+          <strong>🗄️ DATABASE — PostgreSQL</strong><br>
+          <span style="font-size: 0.8rem;">Tasks • Dependencies • Alembic Migrations • Pydantic Models</span>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 0.5rem;">
+        <div style="background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%); border: 2px dashed #7c3aed; border-radius: 8px; padding: 8px; display: inline-block; min-width: 200px; color: white;">
+          <strong>🤖 Claude API (claude-sonnet)</strong><br>
+          <span style="font-size: 0.8rem;">Dependency Suggestions (15% AI weight) • Human-in-Loop</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Layer Architecture Details</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+    <div style="background: #e3f2fd; border: 1px solid #1976d2; border-radius: 8px; padding: 1rem;">
+      <h4 style="color: #1976d2; margin-top: 0;">🌐 Frontend Layer</h4>
+      <ul style="font-size: 0.9rem; padding-left: 1.2rem;">
+        <li><strong>React 18</strong> with TypeScript strict mode</li>
+        <li><strong>React Beautiful DnD</strong> — Kanban 4-column drag & drop</li>
+        <li><strong>React Flow</strong> — Interactive DAG visualization</li>
+        <li><strong>Axios</strong> — HTTP client with interceptors</li>
+        <li><strong>Zustand</strong> — Lightweight state management</li>
+        <li><strong>Optimistic UI</strong> — Instant drag feedback + backend validation</li>
+        <li><strong>4 Columns:</strong> Backlog | In Progress | Review | Done</li>
+      </ul>
+    </div>
+    <div style="background: #e8f5e9; border: 1px solid #388e3c; border-radius: 8px; padding: 1rem;">
+      <h4 style="color: #388e3c; margin-top: 0;">⚙️ Backend Layer</h4>
+      <ul style="font-size: 0.9rem; padding-left: 1.2rem;">
+        <li><strong>FastAPI</strong> — Async REST API with auto-docs</li>
+        <li><strong>DAG Engine</strong> — Cycle detection, schedule propagation</li>
+        <li><strong>Schedule Propagator</strong> — Kahn's algorithm + BFS with visited-set</li>
+        <li><strong>AI Suggester</strong> — Claude API integration, confidence thresholding</li>
+        <li><strong>Pydantic</strong> — Type-safe request/response validation</li>
+        <li><strong>Alembic</strong> — Database migrations</li>
+        <li><strong>Rate limiting</strong> on AI suggestion endpoints</li>
+      </ul>
+    </div>
+    <div style="background: #fff3e0; border: 1px solid #e65100; border-radius: 8px; padding: 1rem;">
+      <h4 style="color: #e65100; margin-top: 0;">🗄️ Database Layer</h4>
+      <ul style="font-size: 0.9rem; padding-left: 1.2rem;">
+        <li><strong>PostgreSQL</strong> — Relational database with JSONB support</li>
+        <li><strong>SQLAlchemy ORM</strong> — Type-safe ORM, parameterized queries</li>
+        <li><strong>Tasks Table</strong> — UUID, title, description, status, dates, position</li>
+        <li><strong>Dependencies Table</strong> — Source/target FKs, suggested_by, validated</li>
+        <li><strong>Unique constraint</strong> on (source, target) pairs</li>
+        <li><strong>Transaction-wrapped</strong> all dependency mutations</li>
+        <li><strong>Row-level locking</strong> on concurrent dependency operations</li>
+      </ul>
+    </div>
+    <div style="background: #f3e5f5; border: 1px solid #7b1fa2; border-radius: 8px; padding: 1rem;">
+      <h4 style="color: #7b1fa2; margin-top: 0;">🤖 AI Integration Layer</h4>
+      <ul style="font-size: 0.9rem; padding-left: 1.2rem;">
+        <li><strong>Claude API</strong> (claude-sonnet) — Dependency suggestion</li>
+        <li><strong>Structured prompting</strong> — JSON output format</li>
+        <li><strong>Confidence thresholding</strong> — Only >0.6 shown to user</li>
+        <li><strong>Human-in-loop</strong> — Accept/Reject in Suggested Dependencies panel</li>
+        <li><strong>Backend validation</strong> — All returned IDs verified against DB</li>
+        <li><strong>Graceful degradation</strong> — LLM down? All features still work</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Core Algorithms</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+    <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; border-left: 4px solid #1976d2;">
+      <h4 style="color: #1976d2; margin-top: 0;">🔄 Cycle Detection</h4>
+      <p style="font-size: 0.85rem;">DFS with white/gray/black coloring scheme. O(V+E) per edge addition. Rejects circular dependencies in real time. Graph remains unchanged on rejection.</p>
+    </div>
+    <div style="background: #e8f5e9; border-radius: 8px; padding: 1rem; border-left: 4px solid #388e3c;">
+      <h4 style="color: #388e3c; margin-top: 0;">📈 Schedule Propagation</h4>
+      <p style="font-size: 0.85rem;">Topological sort (Kahn's) + BFS with visited-set. Each downstream task: start_date = max(end_dates of all predecessors). No compounding on converging paths.</p>
+    </div>
+    <div style="background: #fff3e0; border-radius: 8px; padding: 1rem; border-left: 4px solid #e65100;">
+      <h4 style="color: #e65100; margin-top: 0;">⏪ Rollback on Regression</h4>
+      <p style="font-size: 0.85rem;">Moving completed task back to In Progress re-blocks all downstream dependents. Blocked = any unsatisfied prerequisite. Recalculated dynamically on every upstream change.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>72-Hour Sprint Timeline</h3>
+  <div style="font-family: monospace; font-size: 0.85rem; line-height: 2;">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="background: #e65100; color: white; padding: 4px 12px; border-radius: 4px; min-width: 90px; text-align: center; font-weight: bold;">H 0-8</span>
+      <span>Schema + Migrations + Seed Data (8-10 tasks with dependencies)</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="background: #388e3c; color: white; padding: 4px 12px; border-radius: 4px; min-width: 90px; text-align: center; font-weight: bold;">H 8-24</span>
+      <span>DAG Engine: Cycle Detection + Schedule Propagation + Tests</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="background: #1976d2; color: white; padding: 4px 12px; border-radius: 4px; min-width: 90px; text-align: center; font-weight: bold;">H 24-48</span>
+      <span>Kanban UI + DAG Visualization + API Integration</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="background: #7b1fa2; color: white; padding: 4px 12px; border-radius: 4px; min-width: 90px; text-align: center; font-weight: bold;">H 48-64</span>
+      <span>AI Integration: Claude API + Human-in-Loop Validation</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="background: #c62828; color: white; padding: 4px 12px; border-radius: 4px; min-width: 90px; text-align: center; font-weight: bold;">H 64-72</span>
+      <span>Docs, Testing, Error Handling, .gitignore, Deployment</span>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Security & Prohibited Content Compliance</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+    <div style="background: #ffebee; border: 2px solid #e53935; border-radius: 8px; padding: 1rem;">
+      <h4 style="color: #c62828; margin-top: 0;">🚫 Prohibited Content Rules</h4>
+      <ul style="font-size: 0.85rem; padding-left: 1.2rem;">
+        <li>✅ <strong>.env</strong> — API keys only, never committed</li>
+        <li>✅ <strong>.env.example</strong> — Placeholders committed instead</li>
+        <li>✅ <strong>.gitignore</strong> — node_modules, .venv, dist, build, __pycache__, *.pyc, .env</li>
+        <li>✅ <strong>No secrets in code</strong> — All credentials via environment variables</li>
+        <li>✅ <strong>No large files</strong> — No model weights, no media</li>
+        <li>✅ <strong>No build artifacts</strong> — No dist/, build/ in repo</li>
+        <li>✅ <strong>Pre-commit hook</strong> — Scan for accidental secret commits</li>
+      </ul>
+    </div>
+    <div style="background: #e8f5e9; border: 2px solid #43a047; border-radius: 8px; padding: 1rem;">
+      <h4 style="color: #2e7d32; margin-top: 0;">✅ Submission Checklist</h4>
+      <ul style="font-size: 0.85rem; padding-left: 1.2rem;">
+        <li>🟢 <strong>[M]</strong> GitHub repo (public, specific branch)</li>
+        <li>🟢 <strong>[M]</strong> Architecture + data model + known-limitations write-up</li>
+        <li>🟡 <strong>[O]</strong> Full test suite (bonus credit)</li>
+        <li>🟡 <strong>[O]</strong> Known failure cases (bonus credit)</li>
+        <li>🟢 <strong>[M]</strong> AI-Tool Declaration (Claude API used)</li>
+        <li>🟢 <strong>[M]</strong> Resume/CV GitHub URL</li>
+        <li>🟡 <strong>[O]</strong> LinkedIn Profile URL (optional)</li>
+        <li>🟡 <strong>[O]</strong> Live deployment URL (bonus credit)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Evaluation Criteria Mapping</h3>
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;">
+    <div style="background: linear-gradient(135deg, #fff8e1, #ffecb3); border-radius: 8px; padding: 1rem; border-top: 4px solid #f9a825; text-align: center;">
+      <div style="font-size: 1.5rem; font-weight: bold; color: #f57f17;">20%</div>
+      <div style="font-size: 0.8rem;">Functional Correctness</div>
+      <ul style="font-size: 0.75rem; text-align: left; padding-left: 1rem; margin-top: 0.5rem;">
+        <li>DFS cycle detection</li>
+        <li>Diamond-dependency math</li>
+        <li>Rollback behavior</li>
+        <li>Blocked/Ready dynamic</li>
+      </ul>
+    </div>
+    <div style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 8px; padding: 1rem; border-top: 4px solid #43a047; text-align: center;">
+      <div style="font-size: 1.5rem; font-weight: bold; color: #2e7d32;">20%</div>
+      <div style="font-size: 0.8rem;">Code Quality & Architecture</div>
+      <ul style="font-size: 0.75rem; text-align: left; padding-left: 1rem; margin-top: 0.5rem;">
+        <li>Clean layered architecture</li>
+        <li>Type-safe Pydantic APIs</li>
+        <li>Error handling at boundaries</li>
+        <li>Consistent naming conventions</li>
+      </ul>
+    </div>
+    <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); border-radius: 8px; padding: 1rem; border-top: 4px solid #1976d2; text-align: center;">
+      <div style="font-size: 1.5rem; font-weight: bold; color: #1565c0;">15%</div>
+      <div style="font-size: 0.8rem;">AI/LLM Usage</div>
+      <ul style="font-size: 0.75rem; text-align: left; padding-left: 1rem; margin-top: 0.5rem;">
+        <li>Claude API dependency suggestion</li>
+        <li>Confidence thresholding (>0.6)</li>
+        <li>Human-in-loop validation</li>
+        <li>AI-Tool Declaration</li>
+      </ul>
+    </div>
+    <div style="background: linear-gradient(135deg, #fce4ec, #f8bbd0); border-radius: 8px; padding: 1rem; border-top: 4px solid #e53935; text-align: center;">
+      <div style="font-size: 1.5rem; font-weight: bold; color: #c62828;">13%</div>
+      <div style="font-size: 0.8rem;">Documentation</div>
+      <ul style="font-size: 0.75rem; text-align: left; padding-left: 1rem; margin-top: 0.5rem;">
+        <li>README + setup instructions</li>
+        <li>Architecture design doc [M]</li>
+        <li>Data model documentation [M]</li>
+        <li>Known Limitations [M]</li>
+      </ul>
+    </div>
+  </div>
+</div>

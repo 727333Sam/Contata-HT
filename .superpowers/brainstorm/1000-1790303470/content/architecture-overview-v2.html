@@ -1,0 +1,152 @@
+<h2>TaskFlow Pro Architecture Design Options</h2>
+<p class="subtitle">Three approaches for the 72-hour hackathon sprint</p>
+
+<div class="section">
+  <h3>Option 1: Three-Layer Monolith (Current Direction)</h3>
+  <div class="mockup">
+    <div class="mockup-header">Three-Layer Monolith</div>
+    <div class="mockup-body" style="padding: 1.5rem; font-family: monospace; font-size: 0.85rem; line-height: 1.8;">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <div style="background: #e3f2fd; border: 2px solid #1976d2; border-radius: 8px; padding: 12px; display: inline-block; min-width: 280px;">
+          <strong style="color: #1976d2;">🌐 FRONTEND — React 18 + TypeScript</strong><br>
+          <span style="font-size: 0.8rem;">React Beautiful DnD • React Flow • Axios</span>
+        </div>
+      </div>
+      <div style="text-align: center; color: #666; font-size: 1.2rem;">▼ REST API + WebSocket ▼</div>
+      <div style="text-align: center; margin: 0.5rem 0;">
+        <div style="background: #e8f5e9; border: 2px solid #388e3c; border-radius: 8px; padding: 12px; display: inline-block; min-width: 280px;">
+          <strong style="color: #388e3c;">⚙️ BACKEND — FastAPI + Python</strong><br>
+          <span style="font-size: 0.8rem;">DAG Engine • Schedule Propagator • AI Suggester</span>
+        </div>
+      </div>
+      <div style="text-align: center; color: #666; font-size: 1.2rem;">▼ SQLAlchemy ORM ▼</div>
+      <div style="text-align: center; margin-top: 0.5rem;">
+        <div style="background: #fff3e0; border: 2px solid #e65100; border-radius: 8px; padding: 12px; display: inline-block; min-width: 280px;">
+          <strong style="color: #e65100;">🗄️ DATABASE — PostgreSQL</strong><br>
+          <span style="font-size: 0.8rem;">Tasks • Dependencies • Alembic Migrations</span>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 0.5rem;">
+        <div style="background: #f3e5f5; border: 2px dashed #7b1fa2; border-radius: 8px; padding: 8px; display: inline-block; min-width: 200px;">
+          <strong style="color: #7b1fa2;">🤖 Claude API</strong><br>
+          <span style="font-size: 0.8rem;">Dependency Suggestions (15% AI weight)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Pros for Hackathon:</h4>
+  <ul>
+    <li><strong>Speed:</strong> Single deployment, simple debugging</li>
+    <li><strong>Simplicity:</strong> One codebase, clear responsibility boundaries</li>
+    <li><strong>Immediate feedback:</strong> Fast iteration within 72 hours</li>
+    <li><strong>Evaluation-friendly:</strong> Easy to review and score all criteria</li>
+  </ul>
+
+  <h4>Cons for Hackathon:</h4>
+  <ul>
+    <li><strong>Scalability:</strong> Harder to scale beyond prototype</li>
+    <li><strong>Monolithic risk:</strong> Changes require full app restart</li>
+    <li><strong>Resource usage:</strong> All components run together</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>Option 2: Microservices Architecture</h3>
+  <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+    <div style="background: #fff8e1; border-left: 4px solid #f9a825; padding: 1rem; border-radius: 4px;">
+      <strong>Service Decomposition:</strong>
+      <ul>
+        <li><strong>TaskFlow-Frontend:</strong> React + WebSocket client</li>
+        <li><strong>TaskFlow-DAG:</strong> Python service with cycle detection</li>
+        <li><strong>TaskFlow-Auth:</strong> FastAPI authentication service</li>
+        <li><strong>TaskFlow-Notifications:</strong> Email/push notification service</li>
+        <li><strong>TaskFlow-Analytics:</strong> Data aggregation service</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>Pros for Hackathon:</h4>
+  <ul>
+    <li><strong>Scalability:</strong> Individual services can scale independently</li>
+    <li><strong>Team independence:</strong> Parallel development possible</li>
+    <li><strong>Fault isolation:</strong> One service failure doesn't bring down everything</li>
+    <li><strong>Production patterns:</strong> Demonstrates enterprise architecture skills</li>
+  </ul>
+
+  <h4>Cons for Hackathon:</h4>
+  <ul>
+    <li><strong>Complexity:</strong> 5 services = 5 deployments, 5 databases possibly</li>
+    <li><strong>Network dependency:</strong> API calls between services add latency</li>
+    <li><strong>DevOps overhead:</strong> Docker/Kubernetes setup takes time</li>
+    <li><strong>Time investment:</strong> 72 hours may not be enough</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>Option 3: Event-Driven CQRS Architecture</h3>
+  <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+    <div style="background: #e3f2fd; border-left: 4px solid #1976d2; padding: 1rem; border-radius: 4px;">
+      <strong>Architecture Flow:</strong>
+      <ul>
+        <li><strong>Command Service (Write):</strong> FastAPI for all write operations</li>
+        <li><strong>Event Bus:</strong> Kafka/RabbitMQ for async processing</li>
+        <li><strong>Read Model Services:</strong> Separate databases for queries</li>
+        <li><strong>Frontend API Gateway:</strong> Aggregates read models</li>
+        <li><strong>Event Sourcing:</strong> Full audit trail of all changes</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>Pros for Hackathon:</h4>
+  <ul>
+    <li><strong>Consistency:</strong> Event sourcing provides perfect audit trail</li>
+    <li><strong>Isolation:</strong> Reads don't block writes</li>
+    <li><strong>Replayability:</strong> Can rebuild read models from events</li>
+    <li><strong>Advanced patterns:</strong> Demonstrates enterprise-grade design</li>
+  </ul>
+
+  <h4>Cons for Hackathon:</h4>
+  <ul>
+    <li><strong>Message broker dependency:</strong> Kafka setup adds complexity</li>
+    <li><strong>Data consistency:</strong> Eventual consistency requires careful design</li>
+    <li><strong>Testing overhead:</strong> Event flows are hard to test synchronously</li>
+    <li><strong>Learning curve:</strong> CQRS patterns are advanced concepts</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>Evaluation Criteria Fit</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+    <div style="background: #e8f5e9; border-left: 4px solid #43a047; padding: 1rem; border-radius: 4px;">
+      <strong>Scoring by Architecture:</strong>
+      <ul>
+        <li><strong>Three-Layer Monolith:</strong> 85/100 - Good architecture, clear, fast</li>
+        <li><strong>Microservices:</strong> 92/100 - Strong scalability patterns, production-ready</li>
+        <li><strong>Event-Driven CQRS:</strong> 88/100 - Advanced patterns, audit trail benefits</li>
+      </ul>
+    </div>
+    <div style="background: #fff3e0; border-left: 4px solid #e65100; padding: 1rem; border-radius: 4px;">
+      <strong>Hackathon Viability:</strong>
+      <ul>
+        <li><strong>Time to MVP:</strong> Monolith (Fast), Microservices (Medium), CQRS (Slow)</li>
+        <li><strong>Debuggability:</strong> Monolith (Easy), Microservices (Medium), CQRS (Hard)</li>
+        <li><strong>Complexity Risk:</strong> Monolith (Low), Microservices (Medium), CQRS (High)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Recommendation for This Sprint</h3>
+  <p><strong>Recommended: Three-Layer Monolith</strong></p>
+  <p>While microservices and CQRS offer more advanced patterns, the **Three-Layer Monolith** provides the optimal balance for the 72-hour hackathon:</p>
+  <ul>
+    <li>Clear separation of concerns without unnecessary complexity</li>
+    <li>Fast development cycle — all components in one deployment</li>
+    <li>Easy to demonstrate and score across all evaluation criteria</li>
+    <li>Good enough architecture that shows engineering maturity</li>
+    <li>Minimal DevOps overhead — focus on functionality, not infrastructure</li>
+  </ul>
+  <p>The monolith also makes it easier to showcase the full stack integration, from database migrations to AI integration, within the sprint timeframe.</p>
+</div>

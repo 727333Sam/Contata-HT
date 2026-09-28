@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+sqlalchemy
+alembic
+psycopg2-binary
+pydantic
+pydantic-settings
+python-dotenv
+anthropic
+httpx
+pytest
+pytest-asyncio
+python-socketio
+dagrejs
+openai
