@@ -1,0 +1,9 @@
+{
+  "short_name": "TaskFlow Pro",
+  "name": "TaskFlow Pro — Workflow Engine",
+  "icons": [{ "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#4f46e5",
+  "background_color": "#f8fafc"
+}
