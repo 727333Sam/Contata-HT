@@ -1,7 +1,7 @@
 # TaskFlow Pro — README
 
 **Dependency-Aware Workflow & DAG Scheduling Engine**  
-Built for the Contata Hackathon (Sept 25–28, 2026) — 72-hour sprint.
+Built for the Multimodal AI Hackathon 2026 (IIT, Mandi) (October 14, 2026) — 15 Days build sprint.
 
 ---
 
@@ -49,7 +49,7 @@ npm run dev
 
 Three-Layer Monolith: React frontend → FastAPI backend → PostgreSQL database + Claude API.
 
-See `docs/superpowers/specs/2026-09-25-taskflow-pro-design.md` for full design spec.
+See `2026-10-14-taskflow-pro-design.md` for full design spec.
 
 ---
 
@@ -89,10 +89,10 @@ workflows/  - WAT framework SOPs
 
 ## Known Limitations
 
-Documented in `docs/superpowers/specs/2026-09-25-taskflow-pro-design.md` section 10.
+Documented in `2026-10-14-taskflow-pro-design.md` section 10.
 
 ---
 
 ## License
 
-Built for the Contata Hackathon — open source for evaluation purposes.
+Built for the Multimodal AI Hackathon 2026 (IIT, Mandi) — open source for evaluation purposes.
