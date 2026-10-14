@@ -1,9 +1,9 @@
 # TaskFlow Pro — Design Specification
 
 **Project:** Dependency-Aware Workflow & DAG Scheduling Engine  
-**Date:** September 25, 2026  
+**Date:** September 30, 2026 To October 15, 2026 
 **Architecture:** Three-Layer Monolith (React → FastAPI → PostgreSQL + Claude API)  
-**Sprint:** 72-hour hackathon (September 25–28, 2026)
+**Sprint:** 15-Days build hackathon 
 
 ---
 
@@ -48,7 +48,7 @@ TaskFlow Pro is a task management system with first-class support for dependency
 
 ### 2.2 Why a Monolith
 
-For a 72-hour sprint, a monolith provides:
+For a 15-days build sprint, a monolith provides:
 - **Speed:** Single deployment, no inter-service communication overhead.
 - **Debuggability:** One process, one log stream, straightforward stack traces.
 - **Simplicity:** Clear layer boundaries without the operational cost of service discovery, message brokers, or distributed tracing.
@@ -329,23 +329,11 @@ When a user drags a task to a new column:
 
 ## 11. Sprint Timeline
 
-| Phase   | Hours   | Deliverables                                              |
+| Phase   | Days    | Deliverables                                              |
 |---------|---------|----------------------------------------------------------|
-| Setup   | H 0–8   | Schema, migrations, seed data (8–10 tasks)               |
-| Engine  | H 8–24  | DAG engine: cycle detection + schedule propagation + tests|
-| UI      | H 24–48 | Kanban board + DAG visualization + API integration       |
-| AI      | H 48–64 | Claude API integration + human-in-loop validation        |
-| Polish  | H 64–72 | Docs, testing, error handling, deployment                |
+| Setup   | D 1–4   | Schema, migrations, seed data (8–10 tasks)               |
+| Engine  | D 5–9  | DAG engine: cycle detection + schedule propagation + tests|
+| UI      | D 9–12 | Kanban board + DAG visualization + API integration       |
+| AI      | D 12–13 | Claude API integration + human-in-loop validation        |
+| Polish  | D 13–14 | Docs, testing, error handling, deployment                |
 
----
-
-## 12. Evaluation Criteria Mapping
-
-| Criterion                    | Weight | How We Address It                                    |
-|------------------------------|--------|------------------------------------------------------|
-| Functional Correctness       | 20%    | DFS cycle detection, diamond math, rollback, blocked/ready |
-| Code Quality & Architecture  | 20%    | Clean layers, Pydantic types, error boundaries, naming |
-| AI/LLM Usage                 | 15%    | Claude API suggestions, confidence thresholding, human-in-loop |
-| Documentation                | 13%    | This spec, README, data model docs, known limitations |
-| Testing                      | Bonus  | DAG engine unit tests, API integration tests          |
-| Deployment                   | Bonus  | Docker setup, environment configuration               |
